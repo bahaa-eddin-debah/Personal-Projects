@@ -1,0 +1,48 @@
+# 🛡️ Security Assessment: Mikrotik Hotspot MAC Spoofing Bypass
+
+> **⚠️ Legal Disclaimer:** This security assessment was conducted strictly with explicit permission from the network owner for educational and security research purposes only.
+
+---
+
+## 📌 Overview
+Demonstration of an authentication bypass vulnerability on a local Mikrotik Hotspot network using **ARP Scanning** and **MAC Address Spoofing**.
+
+---
+
+## 🛠️ Tools Used
+- **Windows Command Prompt (CMD)**
+- **TMAC (Technitium MAC Address Changer)**
+
+---
+
+## 📝 Execution Methodology
+
+### Phase 1: ARP Scanning & Active MAC Discovery
+1. Executed a Ping Sweep script via CMD to populate the local ARP table:
+```cmd
+for /L %i in (1,1,50) do @ping -n 1 -w 100 10.2.3.%i
+```
+
+2. Displayed discovered physical addresses to locate active dynamic IP bindings:
+```cmd
+arp -a
+```
+
+3. Copied an active target Physical Address (`MAC`).
+
+### Phase 2: MAC Address Spoofing via TMAC
+1. Launched **TMAC** with Administrator privileges.
+2. Selected the connected network interface card (NIC).
+3. Changed the adapter's MAC address to the target physical address.
+4. Confirmed network connectivity and verified Mikrotik Hotspot login page bypass.
+
+### Phase 3: Restoration & Cleanup
+- Restored the original MAC address using TMAC's `Restore Original` option to terminate the test safely.
+
+---
+
+## 💡 Mitigation & Recommendations
+To prevent MAC spoofing bypass on Mikrotik Hotspot networks:
+- Enable **MAC Cookie** with reduced session timeouts.
+- Bind users using **IP + MAC + Static ARP** entries.
+- Implement **Port Security** or **DHCP Snooping** on switch hardware.
