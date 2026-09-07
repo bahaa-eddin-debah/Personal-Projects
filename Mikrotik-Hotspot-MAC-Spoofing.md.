@@ -18,17 +18,22 @@ Demonstration of an authentication bypass vulnerability on a local Mikrotik Hots
 ## 📝 Execution Methodology
 
 ### Phase 1: ARP Scanning & Active MAC Discovery
-1. Executed a Ping Sweep script via CMD to populate the local ARP table:
+1. Identified local IPv4 address and default gateway to determine the active target subnet:
+```cmd
+ipconfig
+```
+
+2. Executed a Ping Sweep script via CMD based on the identified subnet range (e.g., `10.2.3.X`) to populate the local ARP table:
 ```cmd
 for /L %i in (1,1,50) do @ping -n 1 -w 100 10.2.3.%i
 ```
 
-2. Displayed discovered physical addresses to locate active dynamic IP bindings:
+3. Displayed discovered physical addresses to locate active dynamic IP bindings:
 ```cmd
 arp -a
 ```
 
-3. Copied an active target Physical Address (`MAC`).
+4. Copied an active target Physical Address (`MAC`).
 
 ### Phase 2: MAC Address Spoofing via TMAC
 1. Launched **TMAC** with Administrator privileges.
